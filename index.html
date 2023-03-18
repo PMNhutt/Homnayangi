@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <meta property="og:title" content="__META_OG_TITLE__"/> -->
+    <!-- <meta property="og:description" content="__META_OG_DESCRIPTION__"/> -->
+    <meta
+      property="og:image"
+      content="https://firebasestorage.googleapis.com/v0/b/homnayangi-files.appspot.com/o/metas%2Fimage_2023-03-15_082827425.webp?alt=media&token=bb005414-2fad-4d08-b17c-f3c00b43afce"
+    />
+    <!-- <meta property="og:url" content="__META_OG_URL__"> -->
+    <link rel="icon" type="image/svg+xml" href="/logo.png" />
+    <link rel="preload" href="/fonts/Inter-Black.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Inter-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Inter-ExtraBold.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Inter-Light.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Inter-ExtraLight.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Inter-Medium.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Inter-SemiBold.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Inter-Thin.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Lobster-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" as="image" href="/static/diadanhmiennam2.webp" />
+    <link rel="preload" as="image" href="/static/diadanhmienbac2.webp" />
+    <link rel="preload" as="image" href="/static/diadanhmientrung2.webp" />
+    <link rel="preload" as="image" href="/static/foodMid.webp" />
+    <link rel="preload" as="image" href="/static/foodNorth.webp" />
+    <link rel="preload" as="image" href="/static/foodSoouth.webp" />
+    <link rel="preload" as="image" href="/static/Logo.png" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hôm nay ăn gì</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Messenger Chat Plugin Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Chat Plugin code -->
+    <div id="fb-customer-chat" class="fb-customerchat" theme_color="#FF8855"></div>
+
+    <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute('page_id', '114391344918040');
+      chatbox.setAttribute('attribution', 'biz_inbox');
+    </script>
+
+    <!-- Your SDK code -->
+    <script>
+      window.fbAsyncInit = function () {
+        FB.init({
+          xfbml: true,
+          version: 'v16.0',
+        });
+      };
+
+      (function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, 'script', 'facebook-jssdk');
+    </script>
+
+    <!-- share to facebook code -->
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v16.0"
+      nonce="0ccgrWdI"
+    ></script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
