@@ -12,7 +12,7 @@ const ModalRequireLogin = (props) => {
     <Modal open={openRequireLogin} onClose={() => setOpenRequireLogin(false)}>
       <div
         className="fixed left-[50%]
-          top-[50%] translate-y-[-50%] translate-x-[-50%] bg-white rounded-[5px] max-w-[500px]"
+          top-[50%] translate-y-[-50%] translate-x-[-50%] bg-white rounded-[5px] sm:w-fit w-full"
       >
         <div className="flex flex-col items-center justify-center px-7 py-6">
           <p>Bạn cần đăng nhập để có thể thực hiện chức năng này</p>

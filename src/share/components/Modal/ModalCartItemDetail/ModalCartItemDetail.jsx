@@ -10,7 +10,7 @@ const ModalCartItemDetail = (props) => {
     <Modal open={openDetailModal} onClose={() => setOpenDetailModal(false)}>
       <div
         className="fixed left-[50%]
-          top-[50%] translate-y-[-50%] translate-x-[-50%] bg-white rounded-[3px] max-w-[500px] px-3 py-4"
+          top-[50%] translate-y-[-50%] translate-x-[-50%] sm:w-fit w-full bg-white rounded-[3px] px-3 py-4"
       >
         {data &&
           (data.isCook ? (
@@ -37,9 +37,9 @@ const ModalCartItemDetail = (props) => {
                 <p className="text-[16px] font-semibold">Gói nguyên liệu: </p>
                 <p className="text-[16px] line-clamp-2 text-primary font-semibold">{data?.orderName}</p>
               </div>
-              <div className="max-h-[275px] grid grid-cols-2 gap-[10px] scroll-bar overflow-x-hidden overflow-y-scroll py-[15px]">
+              <div className="max-h-[275px] grid sm:grid-cols-2 gap-[10px] scroll-bar overflow-x-hidden overflow-y-scroll py-[15px]">
                 {data?.orderDetails?.map((item) => (
-                  <div key={item?.ingredientId} className="">
+                  <div key={item?.ingredientId} className="sm:w-[250px]">
                     <Item item={item} />
                   </div>
                 ))}
