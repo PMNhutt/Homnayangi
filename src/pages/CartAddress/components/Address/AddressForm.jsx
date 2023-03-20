@@ -77,7 +77,7 @@ const AddressForm = (props) => {
           <p className="mb-[5px] text-redError text-[14px]">Họ và tên không hợp lệ</p>
         )}
         {/* phone number and email */}
-        <div className="flex items-center gap-3 justify-between">
+        <div className="sm:flex items-center gap-3 justify-between">
           {/* phonenumber */}
           <div className="flex-1">
             <input
@@ -149,7 +149,7 @@ const AddressForm = (props) => {
           <p className="mb-[5px] text-redError text-[14px]">Địa chỉ nhận hàng không hợp lệ</p>
         )}
         {/* city, provinces, wrad */}
-        <div className="flex items-center gap-3 justify-between">
+        <div className="sm:flex items-center gap-3 justify-between">
           {/* provinces  */}
           {/* <div className="flex-1">
                     <Select

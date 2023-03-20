@@ -32,13 +32,15 @@ const CartItem = (props) => {
         <Image alt="" className="w-[80px] h-[80px] object-cover rounded-[5px]" src={`${props?.item?.img || ''}`} />
       </div>
       <div className="flex-1 relative">
-        <p
-          onClick={() => handleRemoveItem(props?.item)}
-          className="cursor-pointer p-1 text-redError absolute top-[-5px] right-0 text-[15px] font-semibold"
-        >
-          X
-        </p>
-        <p className="max-w-[85%] text-[18px] font-semibold leading-[1.2] line-clamp-2">
+        {props?.isCartModal && (
+          <p
+            onClick={() => handleRemoveItem(props?.item)}
+            className="cursor-pointer p-1 text-redError absolute top-[-5px] right-0 text-[15px] font-semibold"
+          >
+            X
+          </p>
+        )}
+        <p className="max-w-[85%] text-[16px] font-semibold leading-[1.2] line-clamp-2">
           {props?.item?.orderName ? props?.item.orderName : 'Gói nguyên liệu số 1'}
         </p>
         <p className={`text-[14px] my-1 `}>

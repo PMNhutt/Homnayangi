@@ -59,7 +59,7 @@ const ModalShoppingCart = (props) => {
         <div className="max-h-[290px] scroll-bar overflow-x-hidden overflow-y-scroll py-[15px]">
           {currentCart?.map((item) => (
             <div key={item?.id + crypto.randomUUID()} className="border-t border-dashed first:border-t-0">
-              <CartItem item={item} />
+              <CartItem item={item} isCartModal={true} />
             </div>
           ))}
         </div>
