@@ -21,7 +21,7 @@ const Address = (props) => {
   return (
     <div className="font-inter w-full bg-white rounded-[5px] px-[14px] py-2">
       {/* header */}
-      <div className="pb-2 border-b flex items-center gap-3">
+      <div className="pb-2 border-b flex items-center gap-2">
         <img alt="" src={ic_location_black} className="object-contain w-[24px] h-[24px]" />
         <p className="uppercase text-black font-medium text-[18px]">Thông tin địa chỉ</p>
       </div>
