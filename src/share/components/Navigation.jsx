@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import MenuModal from './MenuModal';
 import styles from '../../style';
-import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
-import { getShoppingCart } from '../../redux/actionSlice/shoppingCartSlice';
 import ModalShoppingCart from './Modal/ModalShoppingCart/ModalShoppingCart';
 import NotifyItemCart from './NotifyItemCart';
 
@@ -27,7 +25,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // ** Redux
 import { setOpenMenuModal, setCountrySide } from '../../redux/actionSlice/globalSlice';
-import { setShowModalCart } from '../../redux/actionSlice/shoppingCartSlice';
+import { setShowModalCart, getShoppingCart } from '../../redux/actionSlice/shoppingCartSlice';
+import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
 
 const Navigation = (props) => {
   // ** States, Const
@@ -44,6 +43,13 @@ const Navigation = (props) => {
   if (accessToken) {
     decoded_jwt = jwt_decode(accessToken);
   }
+
+  // ** set account info
+  useEffect(() => {
+    if (decoded_jwt) {
+      dispatch(setAccountInfo(decoded_jwt));
+    }
+  }, [decoded_jwt]);
 
   //**  Get shopping cart
   useEffect(() => {

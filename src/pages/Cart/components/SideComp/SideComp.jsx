@@ -8,7 +8,7 @@ import jwt_decode from 'jwt-decode';
 
 const SideComp = () => {
   const cartList = useSelector((state) => state.cart.shoppingCart);
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -65,6 +65,7 @@ const SideComp = () => {
       </div>
       {/* <DelayedLink delay={0} to="/order"> */}
       <button
+        onClick={() => navigate('/cart-address')}
         disabled={currentCart?.length > 0 ? false : true}
         className={`uppercase select-none text-white font-semibold mt-5 w-full text-center py-2 rounded-[5px]
 ${currentCart?.length > 0 ? 'cursor-pointer bg-primary' : 'cursor-not-allowed bg-secondary'}`}
