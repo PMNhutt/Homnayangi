@@ -53,7 +53,7 @@ const SideComp = () => {
 
   return (
     <div className="sticky top-[100px] mb-10">
-      <div className="text-black bg-white border rounded-[5px] shadow-md  px-6 py-2 h-fit">
+      <div className="text-black bg-white rounded-[5px] px-6 py-2 h-fit">
         <div className="py-[10px] mb-5 border-b flex items-center justify-between">
           <p className="font-semibold">Đơn hàng</p>
           <p className="">{totalItem?.total} sản phẩm</p>
