@@ -7,13 +7,13 @@ import { Tooltip } from '@mui/material';
 const Voucher = (props) => {
   const { data } = props;
   return (
-    <div className={`w-full rounded bg-secondary border-2 border-primary p-4 `}>
+    <div className={`w-full h-full rounded bg-secondary border-2 border-primary p-4 `}>
       {/* header */}
       <div className="pb-2 border-b-2 border-b-primary">
         <p className="text-black font-semibold text-[18px]">{data?.voucherName}</p>
       </div>
       {/* body */}
-      <div className="mt-2">
+      <div className="mt-2 h-full">
         <p className=" leading-[30px]">
           Giảm{' '}
           <span className="text-redError text-[18px] font-bold">
