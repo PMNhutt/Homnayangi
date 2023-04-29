@@ -55,15 +55,18 @@ const LoginForm = () => {
           localStorage.setItem('accessToken', res.data.result);
           if (decoded?.role === 'Staff' || decoded?.role === 'Admin' || decoded?.role === 'Manager') {
             // navigate('/management');
-            window.location = '/management';
+            // window.location = '/management';
+            location.href = '/management';
           } else {
             if (store.returnUrl !== '') {
               // navigate(store.returnUrl);
-              window.location = `/${store.returnUrl}`;
+              // window.location = `/${store.returnUrl}`;
+              location.href = `/${store.returnUrl}`;
               dispatch(setReturnUrl(''));
             } else {
               // navigate('/');
-              window.location = '/';
+              // window.location = '/';
+              location.href = '/';
             }
           }
         }
@@ -98,15 +101,18 @@ const LoginForm = () => {
                 localStorage.setItem('accessToken', res.data.result);
                 if (decoded?.role === 'Staff' || decoded?.role === 'Admin' || decoded?.role === 'Manager') {
                   // navigate('/management');
-                  window.location = '/management';
+                  // window.location = '/management';
+                  location.href = '/management';
                 } else {
                   if (store.returnUrl !== '') {
                     // navigate(store.returnUrl);
-                    window.location = `/${store.returnUrl}`;
+                    // window.location = `/${store.returnUrl}`;
+                    location.href = `/${store.returnUrl}`;
                     dispatch(setReturnUrl(''));
                   } else {
                     // navigate('/');
-                    window.location = '/';
+                    // window.location = '/';
+                    location.href = '/';
                   }
                 }
               }

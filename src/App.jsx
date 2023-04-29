@@ -8,11 +8,12 @@ import 'moment/locale/vi';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import jwt_decode from 'jwt-decode';
 import { setConnection, setNewNoti } from './redux/actionSlice/globalSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 function App() {
   const dispatch = useDispatch();
+  const accountStore = useSelector((state) => state.account);
   const [connection, setConnection] = useState();
 
   const accessToken = localStorage.getItem('accessToken');
@@ -30,7 +31,7 @@ function App() {
 
   // ** get connection signalR
   useEffect(() => {
-    // if (accessToken) {
+    // if (accountStore?.accountInfo) {
     // console.log(`${import.meta.env.VITE_LOCAL_URL}signalRServer`);
     const connect = new HubConnectionBuilder()
       .withUrl(`${import.meta.env.VITE_LOCAL_URL}/signalRServer`)
