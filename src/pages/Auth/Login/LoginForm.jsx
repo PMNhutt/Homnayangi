@@ -55,18 +55,18 @@ const LoginForm = () => {
           localStorage.setItem('accessToken', res.data.result);
           if (decoded?.role === 'Staff' || decoded?.role === 'Admin' || decoded?.role === 'Manager') {
             // navigate('/management');
-            // window.location = '/management';
-            location.href = '/management';
+            window.location.href = '/management';
+            // location.href = '/management';
           } else {
             if (store.returnUrl !== '') {
               // navigate(store.returnUrl);
-              // window.location = `/${store.returnUrl}`;
-              location.href = `/${store.returnUrl}`;
+              window.location.href = `/${store.returnUrl}`;
+              // location.href = `/${store.returnUrl}`;
               dispatch(setReturnUrl(''));
             } else {
               // navigate('/');
-              // window.location = '/';
-              location.href = '/';
+              window.location.href = '/';
+              // location.href = '/';
             }
           }
         }
@@ -101,18 +101,18 @@ const LoginForm = () => {
                 localStorage.setItem('accessToken', res.data.result);
                 if (decoded?.role === 'Staff' || decoded?.role === 'Admin' || decoded?.role === 'Manager') {
                   // navigate('/management');
-                  // window.location = '/management';
-                  location.href = '/management';
+                  window.location.href = '/management';
+                  // location.href = '/management';
                 } else {
                   if (store.returnUrl !== '') {
                     // navigate(store.returnUrl);
-                    // window.location = `/${store.returnUrl}`;
-                    location.href = `/${store.returnUrl}`;
+                    window.location.href = `/${store.returnUrl}`;
+                    // location.href = `/${store.returnUrl}`;
                     dispatch(setReturnUrl(''));
                   } else {
                     // navigate('/');
-                    // window.location = '/';
-                    location.href = '/';
+                    window.location.href = '/';
+                    // location.href = '/';
                   }
                 }
               }
