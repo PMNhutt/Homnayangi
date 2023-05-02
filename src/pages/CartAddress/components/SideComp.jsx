@@ -127,7 +127,9 @@ const SideComp = () => {
         shippedAddress: cartAddress,
         totalPrice: selectedVoucher
           ? selectedVoucher?.discount <= 1
-            ? totalItem.totalPrice - selectedVoucher?.discount * 100
+            ? totalItem.totalPrice > selectedVoucher?.maximumOrderPrice
+              ? totalItem.totalPrice - selectedVoucher?.maximumOrderPrice
+              : totalItem.totalPrice - selectedVoucher?.discount * 100
             : totalItem.totalPrice - selectedVoucher?.discount
           : totalItem.totalPrice,
         paymentMethod: paymentMethod,
@@ -135,79 +137,78 @@ const SideComp = () => {
         orderDetails: getListTotalIngredients(),
         voucherId: selectedVoucher?.voucherId || null,
       };
-      // console.log(requestData);
-      // if (paymentMethod == 0 || cartAddress == '') {
-      //   notifyPaymentError();
-      // } else {
-      //   console.log(requestData);
-      // }
-      // }
-
-      if (cartAddress == '') {
-        // notifyAddressError();
-        notifyError('Vui lòng điền đầy đủ thông tin và ấn xác nhận địa chỉ !');
+      console.log(requestData);
+      if (paymentMethod == 0 || cartAddress == '') {
+        notifyPaymentError();
       } else {
-        if (paymentMethod == -1) {
-          notifyError('Vui lòng chọn phương thức thanh toán !');
-          scrollToWithOffset(100, 'paymentMethod');
-          // notifyPaymentError();
-        } else {
-          let allowCreateOrder = true;
-          if (paymentMethod == 1) {
-            if (totalItem.totalPrice <= 10000) {
-              notifyError('Tổng giá trị đơn hàng khi thanh toán online phải tối thiểu 10000đ');
-              allowCreateOrder = false;
-            }
-          }
-          if (allowCreateOrder) {
-            toast.promise(
-              instances
-                .post('/orders', {
-                  shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
-                  // discount: 0,
-                  // shippedAddress: cartAddress,
-                  // totalPrice: totalItem.totalPrice,
-                  // paymentMethod: paymentMethod,
-                  // isCooked: cartType == 1 ? false : true,
-                  // orderDetails: getListTotalIngredients(),
-
-                  discount: selectedVoucher ? selectedVoucher.discount : 0,
-                  shippedAddress: cartAddress,
-                  totalPrice: selectedVoucher
-                    ? selectedVoucher?.discount <= 1
-                      ? totalItem.totalPrice - selectedVoucher?.discount * 100
-                      : totalItem.totalPrice - selectedVoucher?.discount
-                    : totalItem.totalPrice,
-                  paymentMethod: paymentMethod,
-                  isCooked: cartType == 1 ? false : true,
-                  orderDetails: getListTotalIngredients(),
-                  voucherId: selectedVoucher?.voucherId || null,
-                })
-                .then((response) => {
-                  // console.log(response.data);
-                  if (response.data) {
-                    window.location.replace(response.data);
-                    // window.location.href = response.data;
-                  } else {
-                    dispatch(
-                      removeCartByStatus({
-                        cusId: decoded_jwt.Id,
-                        isCook: cartType == 1 ? false : true,
-                      }),
-                    );
-                    dispatch(getShoppingCart());
-                    navigate('/user/orders/');
-                  }
-                }),
-              {
-                success: 'Đang chuyển hướng...',
-                pending: 'Đang tạo đơn hàng',
-                error: 'Có lỗi xảy ra khi tạo đơn hàng!',
-              },
-            );
-          }
-        }
+        console.log(requestData);
       }
+
+      // if (cartAddress == '') {
+      //   // notifyAddressError();
+      //   notifyError('Vui lòng điền đầy đủ thông tin và ấn xác nhận địa chỉ !');
+      // } else {
+      //   if (paymentMethod == -1) {
+      //     notifyError('Vui lòng chọn phương thức thanh toán !');
+      //     scrollToWithOffset(100, 'paymentMethod');
+      //     // notifyPaymentError();
+      //   } else {
+      //     let allowCreateOrder = true;
+      //     if (paymentMethod == 1) {
+      //       if (totalItem.totalPrice <= 10000) {
+      //         notifyError('Tổng giá trị đơn hàng khi thanh toán online phải tối thiểu 10000đ');
+      //         allowCreateOrder = false;
+      //       }
+      //     }
+      //     if (allowCreateOrder) {
+      //       toast.promise(
+      //         instances
+      //           .post('/orders', {
+      //             shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
+      //             // discount: 0,
+      //             // shippedAddress: cartAddress,
+      //             // totalPrice: totalItem.totalPrice,
+      //             // paymentMethod: paymentMethod,
+      //             // isCooked: cartType == 1 ? false : true,
+      //             // orderDetails: getListTotalIngredients(),
+
+      //             discount: selectedVoucher ? selectedVoucher.discount : 0,
+      //             shippedAddress: cartAddress,
+      //             totalPrice: selectedVoucher
+      //               ? selectedVoucher?.discount <= 1
+      //                 ? totalItem.totalPrice - selectedVoucher?.discount * 100
+      //                 : totalItem.totalPrice - selectedVoucher?.discount
+      //               : totalItem.totalPrice,
+      //             paymentMethod: paymentMethod,
+      //             isCooked: cartType == 1 ? false : true,
+      //             orderDetails: getListTotalIngredients(),
+      //             voucherId: selectedVoucher?.voucherId || null,
+      //           })
+      //           .then((response) => {
+      //             // console.log(response.data);
+      //             if (response.data) {
+      //               window.location.replace(response.data);
+      //               // window.location.href = response.data;
+      //             } else {
+      //               dispatch(
+      //                 removeCartByStatus({
+      //                   cusId: decoded_jwt.Id,
+      //                   isCook: cartType == 1 ? false : true,
+      //                 }),
+      //               );
+      //               dispatch(getShoppingCart());
+      //               navigate('/user/orders/');
+      //             }
+      //           }),
+      //         {
+      //           success: 'Đang chuyển hướng...',
+      //           pending: 'Đang tạo đơn hàng',
+      //           error: 'Có lỗi xảy ra khi tạo đơn hàng!',
+      //         },
+      //       );
+      //     }
+      //   }
+      // }
     }
   };
 
@@ -273,7 +274,9 @@ const SideComp = () => {
                   Giảm{' '}
                   <span className="text-redError text-[18px] font-bold">
                     {selectedVoucher?.discount <= 1
-                      ? `${selectedVoucher.discount * 100}%`
+                      ? totalItem?.totalPrice > selectedVoucher.maximumOrderPrice
+                        ? `${selectedVoucher.maximumOrderPrice}đ`
+                        : `${selectedVoucher.discount * 100}%`
                       : `${Intl.NumberFormat().format(selectedVoucher.discount)}đ`}
                   </span>
                 </p>
@@ -306,7 +309,9 @@ const SideComp = () => {
             -
             {selectedVoucher
               ? selectedVoucher?.discount <= 1
-                ? `${selectedVoucher.discount * 100}%`
+                ? totalItem?.totalPrice > selectedVoucher.maximumOrderPrice
+                  ? `${selectedVoucher.maximumOrderPrice}đ`
+                  : `${selectedVoucher.discount * 100}%`
                 : `${Intl.NumberFormat().format(selectedVoucher.discount)}đ`
               : `${0}đ`}
           </p>
@@ -316,7 +321,9 @@ const SideComp = () => {
           <p className="font-semibold">
             {selectedVoucher
               ? selectedVoucher?.discount <= 1
-                ? Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.discount * 100)
+                ? totalItem?.totalPrice > selectedVoucher.maximumOrderPrice
+                  ? Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.maximumOrderPrice)
+                  : Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.discount * 100)
                 : Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.discount)
               : Intl.NumberFormat().format(totalItem.totalPrice)}
             đ
