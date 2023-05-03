@@ -165,7 +165,7 @@ const SideBar = (props) => {
                 id="accomplishment"
                 url={ic_accomplishment}
                 urlActive={ic_accomplishment_active}
-                title="Quản lý thành tựu"
+                title="Quản lý thành quả"
                 setOpenSidebar={props.setOpenSidebar}
                 isTablet={props.isTablet}
               />
