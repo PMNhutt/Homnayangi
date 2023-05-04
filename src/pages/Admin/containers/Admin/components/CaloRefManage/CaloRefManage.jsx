@@ -99,8 +99,12 @@ const CaloRefManage = () => {
           Thêm Calo gợi ý
           <img src={ic_blog_create} />
         </button>
-        <a target="_blank" href="" className="text-primary underline font-semibold">
-          Tham khảo
+        <a
+          target="_blank"
+          href="https://www.vinmec.com/vi/tin-tuc/thong-tin-suc-khoe/dinh-duong/nhu-cau-calo-uoc-tinh-moi-ngay-theo-do-tuoi-gioi-tinh/"
+          className="text-primary underline font-semibold"
+        >
+          Tham khảo calo theo độ tuổi giới tính
         </a>
       </div>
       <div>

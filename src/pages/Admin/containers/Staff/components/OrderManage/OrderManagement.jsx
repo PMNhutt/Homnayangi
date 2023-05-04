@@ -73,7 +73,15 @@ const OrderManagement = () => {
       setOrderCount(res?.data?.length || 0);
       setNeedRefundCount(res?.data?.filter((order) => order?.orderStatus == 10).length || 0);
       setNeedConfirmCount(res?.data?.filter((order) => order?.orderStatus == 1).length || 0);
-      setAcceptedCount(res?.data?.filter((order) => order?.orderStatus == 2).length || 0);
+      setAcceptedCount(
+        res?.data?.filter(
+          (order) =>
+            order?.orderStatus == 2 &&
+            (order?.shippedDate
+              ? new Date(order?.shippedDate).getDate() == new Date().getDate()
+              : new Date(order?.orderDate).getDate() == new Date().getDate()),
+        ).length || 0,
+      );
     };
 
     fetch();
