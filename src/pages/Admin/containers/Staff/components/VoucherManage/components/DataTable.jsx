@@ -67,7 +67,7 @@ const columns = [
   },
   {
     field: 'maximumOrderPrice',
-    headerName: 'Giá trị đơn hàng tối đa',
+    headerName: 'Giảm tối đa',
     width: 200,
 
     renderCell: (params) => (

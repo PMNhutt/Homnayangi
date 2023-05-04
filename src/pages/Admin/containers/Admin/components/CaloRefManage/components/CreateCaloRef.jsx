@@ -51,12 +51,12 @@ const CreateCaloRef = () => {
     if (parseInt(data?.fromAge) >= parseInt(data?.toAge)) {
       notifyError('Khoảng độ tuổi không phù hợp');
     } else {
-      console.log({
-        fromAge: parseInt(data?.fromAge),
-        toAge: parseInt(data?.toAge),
-        calo: parseInt(data?.calo),
-        isMale: data?.isMale === 'true',
-      });
+      // console.log({
+      //   fromAge: parseInt(data?.fromAge),
+      //   toAge: parseInt(data?.toAge),
+      //   calo: parseInt(data?.calo),
+      //   isMale: data?.isMale === 'true',
+      // });
       setCreating(true);
       instances
         .post('/caloreference', {

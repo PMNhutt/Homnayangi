@@ -68,28 +68,26 @@ const columns = [
 
 const DataTable = (props) => {
   const actionColumn = [
-    // {
-    //   field: 'action',
-    //   headerName: 'Hành động',
-    //   width: 100,
-    //   // flex: 1,
-    //   renderCell: (params) => (
-    //     <div className="cellAction">
-    //       {params.row.status == 1 && (
-    //         <Tooltip title="Chỉnh sửa" placement="left">
-    //           <IconButton onClick={() => props?.handleOpenEdit(params.row)} aria-label="edit">
-    //             <img src={ic_edit} />
-    //           </IconButton>
-    //         </Tooltip>
-    //       )}
-    //       <Tooltip title={params.row.status == 1 ? 'Xóa' : 'Khôi phục'} placement="right">
-    //         <IconButton onClick={() => props?.handleOpenDelete(params.row)} aria-label="remove">
-    //           {params.row.status == 1 ? <img src={ic_delete_red} /> : <img src={ic_delete_green} />}
-    //         </IconButton>
-    //       </Tooltip>
-    //     </div>
-    //   ),
-    // },
+    {
+      field: 'action',
+      headerName: 'Hành động',
+      width: 100,
+      // flex: 1,
+      renderCell: (params) => (
+        <div className="cellAction">
+          <Tooltip title="Chỉnh sửa" placement="left">
+            <IconButton onClick={() => props?.handleOpenEdit(params.row)} aria-label="edit">
+              <img src={ic_edit} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={'Xóa'} placement="right">
+            <IconButton onClick={() => props?.handleOpenDelete(params.row)} aria-label="remove">
+              {<img src={ic_delete_red} />}
+            </IconButton>
+          </Tooltip>
+        </div>
+      ),
+    },
   ];
   return (
     <div className="h-[75vh] bg-white">

@@ -50,9 +50,9 @@ const CaloRefManage = () => {
         setIsShowModal(false);
       }),
       {
-        pending: 'Đang xóa đơn vị',
+        pending: 'Đang xóa calo gợi ý',
         success: 'Đã xóa thành công! 👌',
-        error: 'Xóa đơn vị thất bại',
+        error: 'Xóa calo gợi ý thất bại',
       },
     );
   };
