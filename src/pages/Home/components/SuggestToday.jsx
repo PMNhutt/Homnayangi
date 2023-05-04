@@ -124,9 +124,9 @@ const SuggestToday = () => {
           if (res.data.status == 'failed') {
             notifyErrorMess(res.data.msg);
           } else {
-            setSuggestCalo(res.data?.calo);
-            setTodayData(res.data?.suggestBlogs);
-            setImgList(res.data?.suggestBlogs.map((item) => item.imageUrl));
+            setSuggestCalo(res.data?.result?.calo);
+            setTodayData(res.data?.result?.suggestBlogs);
+            setImgList(res.data?.result?.suggestBlogs.map((item) => item.imageUrl));
           }
         } catch (error) {
           notifyError();
