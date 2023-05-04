@@ -80,7 +80,7 @@ const BadgeConditionManage = () => {
         <ConfirmModal
           setIsShowModal={setIsShowModal}
           data={confirmData}
-          modalTitle="Điều kiện đạt huy hiệu"
+          modalTitle="Điều kiện đạt danh hiệu"
           statusTypeAvai={true}
           statusTypeNotAvai={false}
           setUpdateTable={setUpdateTable}
