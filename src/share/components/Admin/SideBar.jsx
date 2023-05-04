@@ -337,6 +337,16 @@ const SideBar = (props) => {
                 isTablet={props.isTablet}
               />
               <MenuItem
+                link="management/caloref-manage"
+                active={active}
+                id="caloref-manage"
+                url={ic_config}
+                urlActive={ic_config_active}
+                title="Thiết lập gợi ý theo calories"
+                setOpenSidebar={props.setOpenSidebar}
+                isTablet={props.isTablet}
+              />
+              <MenuItem
                 link="management/users-manage"
                 active={active}
                 id="users-manage"
