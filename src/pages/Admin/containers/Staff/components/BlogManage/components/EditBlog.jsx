@@ -29,6 +29,7 @@ import MaterialSelect from './MaterialSelect/MaterialSelect';
 import Portion from './Portion/Portion';
 import CookTime from './CookTime/CookTime';
 import IsEvent from './IsEvent/IsEvent';
+import SidePackage from './SidePackage/SidePackage';
 
 // ** Markdown
 import MarkdownIt from 'markdown-it';
@@ -115,6 +116,9 @@ const EditBlog = () => {
           setContentBlog({
             ingredients: res.data?.recipeDetails?.map(function (item) {
               return {
+                kcal: item.kcal,
+                price: item.price,
+                name: item.ingredientName,
                 quantity: item.quantity,
                 ingredientId: item.ingredientId,
                 description: item.description,
@@ -485,6 +489,7 @@ const EditBlog = () => {
           </p>
           <div className="my-3">
             <MaterialSelect />
+            <SidePackage />
           </div>
         </div>
 

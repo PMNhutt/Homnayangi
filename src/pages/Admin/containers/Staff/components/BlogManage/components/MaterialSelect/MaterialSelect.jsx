@@ -28,6 +28,7 @@ const MaterialSelect = () => {
   const [ingredientList, setIngredientList] = useState([]);
   const [packagePrice, setPackagePrice] = useState('');
   const [cookedPrice, setCookedPrice] = useState('');
+  const [portion, setPortion] = useState('');
 
   // ** functs
   const handleAddItem = (editItem) => {
@@ -76,6 +77,9 @@ const MaterialSelect = () => {
   useEffect(() => {
     let recipeDetails = selectedList?.map(function (item) {
       return {
+        kcal: item.item.kcal,
+        price: item.item.price,
+        name: item.item.name,
         quantity: parseInt(item.amount),
         ingredientId: item.item.ingredientId,
         description: item.description,
@@ -134,26 +138,51 @@ const MaterialSelect = () => {
     }
   }, [totalKcalDebounce]);
 
+  // ** handle input portion
+  const portionDebounce = useDebounce(portion, 600);
+  useEffect(() => {
+    if (portionDebounce !== '') {
+      // if (!cookedPriceDebounce?.trim()) {
+      //   return;
+      // }
+      dispatch(setContentBlog({ portion: portionDebounce }));
+    }
+  }, [portionDebounce]);
+
   return (
     <div className="font-inter bg-[#FFDACA] rounded-[10px] p-[20px]">
       {ingredientList.length > 0 ? (
         <>
-          {ingredientList.map((item, i) => (
-            <div key={item.id}>
-              <Item
-                editItem={item.editItem}
-                id={item.id}
-                index={i}
-                handleKeyDown={handleKeyDown}
-                handleRemoveItem={handleRemoveItem}
-                setSelectedPrice={setSelectedPrice}
-                selectedPrice={selectedPrice}
-                setSelectedList={setSelectedList}
-                selectedList={selectedList}
+          <div className="sm:gap-10 mb-5">
+            {/* portion, ingredient price, cooked price */}
+            <div className="flex gap-3 items-center mb-5">
+              <input
+                value={portion}
+                onChange={(e) => setPortion(e.target.value)}
+                onKeyDown={handleKeyDown}
+                type="number"
+                placeholder="Khẩu phần"
+                className="font-bold rounded w-[120px] outline-none pl-2"
+              />
+              <input
+                value={packagePrice}
+                onChange={(e) => setPackagePrice(e.target.value)}
+                onKeyDown={handleKeyDown}
+                type="number"
+                placeholder="Giá gói nguyên liệu"
+                className="font-bold rounded w-[190px] outline-none pl-2"
+              />
+              <input
+                value={cookedPrice}
+                onChange={(e) => setCookedPrice(e.target.value)}
+                onKeyDown={handleKeyDown}
+                type="number"
+                placeholder="Giá đặt nấu"
+                className="font-bold rounded w-[150px] outline-none pl-2"
               />
             </div>
-          ))}
-          <div className="flex sm:flex-row flex-col sm:items-center sm:gap-10">
+
+            {/* pre price, total calo */}
             <div>
               <div className="mb-3 flex gap-2">
                 <p className="text-[#898989]">Giá dự kiến</p>
@@ -173,29 +202,23 @@ const MaterialSelect = () => {
                 <i className="text-[#898989]">Tổng lượng calo đã điều chỉnh trước đó: {previousTotalKcal}</i>
               )}
             </div>
-            <div className="">
-              <div className="mb-3 mt-2 flex sm:flex-row flex-col gap-2">
-                <p className="text-[#898989]">Giá gói nguyên liệu</p>
-                <input
-                  value={packagePrice}
-                  onChange={(e) => setPackagePrice(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  type="number"
-                  className="font-bold rounded w-[150px] outline-none pl-2"
-                />
-              </div>
-              <div className="mb-5 flex sm:flex-row flex-col gap-2">
-                <p className="text-[#898989]">Giá đặt nấu</p>
-                <input
-                  value={cookedPrice}
-                  onChange={(e) => setCookedPrice(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  type="number"
-                  className="font-bold rounded w-[150px] outline-none pl-2"
-                />
-              </div>
-            </div>
           </div>
+          {ingredientList.map((item, i) => (
+            <div key={item.id}>
+              <Item
+                editItem={item.editItem}
+                id={item.id}
+                index={i}
+                handleKeyDown={handleKeyDown}
+                handleRemoveItem={handleRemoveItem}
+                setSelectedPrice={setSelectedPrice}
+                selectedPrice={selectedPrice}
+                setSelectedList={setSelectedList}
+                selectedList={selectedList}
+              />
+            </div>
+          ))}
+
           <button
             onClick={() => handleAddItem()}
             className="bg-primary font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]"
