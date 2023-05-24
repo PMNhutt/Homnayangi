@@ -15,8 +15,8 @@ const rows = [
 const columns = [
   // { field: 'blogId', headerName: 'ID', width: 70 },
   {
-    field: 'name',
-    headerName: 'Tên phương thức nấu',
+    field: 'regionName',
+    headerName: 'Tên vùng miền',
     width: 200,
   },
   {
@@ -70,12 +70,12 @@ const DataTable = (props) => {
   return (
     <div className="h-[75vh] bg-white">
       <DataGrid
-        rows={props.methods}
+        rows={props.regions}
         columns={columns.concat(actionColumn)}
         pageSize={12}
         rowsPerPageOptions={[12]}
         className="datagrid"
-        getRowId={(row) => row.cookingMethodId}
+        getRowId={(row) => row.regionId}
         loading={props?.loading}
         // loading={!rows.length}
         components={{

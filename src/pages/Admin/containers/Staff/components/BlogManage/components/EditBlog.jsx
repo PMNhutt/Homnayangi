@@ -30,6 +30,8 @@ import Portion from './Portion/Portion';
 import CookTime from './CookTime/CookTime';
 import IsEvent from './IsEvent/IsEvent';
 import SidePackage from './SidePackage/SidePackage';
+import RegionDropdown from './RegionDropdown/RegionDropdown';
+import CookingMethod from './CookingMethod/CookingMethod';
 
 // ** Markdown
 import MarkdownIt from 'markdown-it';
@@ -375,6 +377,12 @@ const EditBlog = () => {
       {/* ================================= BÀI VIẾT SỰ KIỆN? ================================= */}
       <div className="my-7">
         <IsEvent />
+      </div>
+
+      {/* ================================= CHỌN VÙNG MIỀN, PHƯƠNG THỨC NẤU ================================= */}
+      <div className="my-7 flex gap-5">
+        <RegionDropdown />
+        <CookingMethod />
       </div>
 
       {/* ================================= CHỌN ẢNH BÌA ================================= */}
