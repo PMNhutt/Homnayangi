@@ -5,7 +5,7 @@ import useDebounce from '../../../../../../../../share/hooks/useDebounce';
 import { useParams } from 'react-router-dom';
 
 // ** Redux
-import { setContentBlog } from '../../../../../../../../redux/actionSlice/managementSlice';
+import { setContentBlog, setConfirmPackage } from '../../../../../../../../redux/actionSlice/managementSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 // ** Assets
@@ -14,6 +14,7 @@ import { ic_plus_white } from '../../../../../../../../assets';
 
 // ** Components
 import Item from './components/Item';
+import ConfirmPackageModal from './components/ConfirmPackageModal';
 
 const MaterialSelect = () => {
   // ** Const
@@ -29,10 +30,19 @@ const MaterialSelect = () => {
   const [packagePrice, setPackagePrice] = useState('');
   const [cookedPrice, setCookedPrice] = useState('');
   const [portion, setPortion] = useState('');
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   // ** functs
   const handleAddItem = (editItem) => {
     setIngredientList((prev) => [...prev, { id: crypto.randomUUID(), editItem }]);
+  };
+
+  const handleConfirmPackage = (isConfirmed) => {
+    if (isConfirmed == false) {
+      dispatch(setConfirmPackage(true));
+    } else {
+      setOpenConfirmModal(true);
+    }
   };
 
   const handleRemoveItem = (id) => {
@@ -150,92 +160,117 @@ const MaterialSelect = () => {
   }, [portionDebounce]);
 
   return (
-    <div className="font-inter bg-[#FFDACA] rounded-[10px] p-[20px]">
-      {ingredientList.length > 0 ? (
-        <>
-          <div className="sm:gap-10 mb-5">
-            {/* portion, ingredient price, cooked price */}
-            <div className="flex gap-3 items-center mb-5">
-              <input
-                value={portion}
-                onChange={(e) => setPortion(e.target.value)}
-                onKeyDown={handleKeyDown}
-                type="number"
-                placeholder="Khẩu phần"
-                className="font-bold rounded w-[120px] outline-none pl-2"
-              />
-              <input
-                value={packagePrice}
-                onChange={(e) => setPackagePrice(e.target.value)}
-                onKeyDown={handleKeyDown}
-                type="number"
-                placeholder="Giá gói nguyên liệu"
-                className="font-bold rounded w-[190px] outline-none pl-2"
-              />
-              <input
-                value={cookedPrice}
-                onChange={(e) => setCookedPrice(e.target.value)}
-                onKeyDown={handleKeyDown}
-                type="number"
-                placeholder="Giá đặt nấu"
-                className="font-bold rounded w-[150px] outline-none pl-2"
-              />
-            </div>
-
-            {/* pre price, total calo */}
-            <div>
-              <div className="mb-3 flex gap-2">
-                <p className="text-[#898989]">Giá dự kiến</p>
-                <p className="font-bold text-redError">{Intl.NumberFormat().format(expectedTotalPrice)}đ</p>
-              </div>
-              <div className="mb-3 flex md:flex-row flex-col gap-2">
-                <p className="text-[#898989]">Tổng lượng calo</p>
+    <>
+      {openConfirmModal && <ConfirmPackageModal openModal={openConfirmModal} setOpenModal={setOpenConfirmModal} />}
+      <div className="font-inter bg-[#FFDACA] rounded-[10px] p-[20px]">
+        {ingredientList.length > 0 ? (
+          <>
+            <div className="sm:gap-10 mb-5">
+              {/* portion, ingredient price, cooked price */}
+              <div className="flex gap-3 items-center mb-5">
                 <input
+                  value={portion}
+                  onChange={(e) => setPortion(e.target.value)}
                   onKeyDown={handleKeyDown}
                   type="number"
-                  value={totalKcal}
-                  onChange={(e) => setTotalKcal(e.target.value)}
-                  className="font-bold text-blue-500 rounded w-[150px] outline-none pl-2"
-                ></input>
+                  placeholder="Khẩu phần"
+                  className="font-bold rounded w-[120px] outline-none pl-2"
+                />
+                <input
+                  value={packagePrice}
+                  onChange={(e) => setPackagePrice(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  type="number"
+                  placeholder="Giá gói nguyên liệu"
+                  className="font-bold rounded w-[190px] outline-none pl-2"
+                />
+                <div className="flex items-center gap-2">
+                  <input
+                    value={cookedPrice}
+                    onChange={(e) => setCookedPrice(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    type="number"
+                    placeholder="Giá đặt nấu"
+                    className="font-bold rounded w-[150px] outline-none pl-2"
+                  />
+                  <p className="text-gray-500">(Giá của gói đã được chế biến)</p>
+                </div>
               </div>
-              {previousTotalKcal !== '' && (
-                <i className="text-[#898989]">Tổng lượng calo đã điều chỉnh trước đó: {previousTotalKcal}</i>
+
+              {/* pre price, total calo */}
+              <div>
+                <div className="mb-3 flex gap-2">
+                  <p className="text-[#898989]">Giá dự kiến</p>
+                  <p className="font-bold text-redError">{Intl.NumberFormat().format(expectedTotalPrice)}đ</p>
+                </div>
+                <div className="mb-3 flex md:flex-row flex-col gap-2">
+                  <p className="text-[#898989]">Tổng lượng calo</p>
+                  <input
+                    onKeyDown={handleKeyDown}
+                    type="number"
+                    value={totalKcal}
+                    onChange={(e) => setTotalKcal(e.target.value)}
+                    className="font-bold text-blue-500 rounded w-[150px] outline-none pl-2"
+                  ></input>
+                </div>
+                {previousTotalKcal !== '' && (
+                  <i className="text-[#898989]">Tổng lượng calo đã điều chỉnh trước đó: {previousTotalKcal}</i>
+                )}
+              </div>
+            </div>
+            {ingredientList.map((item, i) => (
+              <div key={item.id}>
+                <Item
+                  editItem={item.editItem}
+                  id={item.id}
+                  index={i}
+                  handleKeyDown={handleKeyDown}
+                  handleRemoveItem={handleRemoveItem}
+                  setSelectedPrice={setSelectedPrice}
+                  selectedPrice={selectedPrice}
+                  setSelectedList={setSelectedList}
+                  selectedList={selectedList}
+                />
+              </div>
+            ))}
+
+            <div className="flex items-center gap-3">
+              <button
+                disabled={store.confirmPackage}
+                onClick={() => handleAddItem()}
+                className={`${
+                  !store.confirmPackage ? '' : 'opacity-50 cursor-not-allowed'
+                } bg-primary font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]`}
+              >
+                Thêm nguyên liệu <img className="w-[20px]" src={ic_plus_white} />
+              </button>
+              {selectedList?.length > 0 && (
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => handleConfirmPackage(store.confirmPackage)}
+                    className={`${
+                      selectedList?.length > 0 ? 'bg-green-500' : ''
+                    }  font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]`}
+                  >
+                    {!store.confirmPackage ? 'Xác nhận' : 'Bỏ xác nhận'}
+                  </button>
+                  <p className="text-gray-500">
+                    (Sau khi xác nhận sẽ không thể thay đổi nguyên liệu và có thể thêm các gói nguyên liệu khác)
+                  </p>
+                </div>
               )}
             </div>
-          </div>
-          {ingredientList.map((item, i) => (
-            <div key={item.id}>
-              <Item
-                editItem={item.editItem}
-                id={item.id}
-                index={i}
-                handleKeyDown={handleKeyDown}
-                handleRemoveItem={handleRemoveItem}
-                setSelectedPrice={setSelectedPrice}
-                selectedPrice={selectedPrice}
-                setSelectedList={setSelectedList}
-                selectedList={selectedList}
-              />
-            </div>
-          ))}
-
+          </>
+        ) : (
           <button
             onClick={() => handleAddItem()}
             className="bg-primary font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]"
           >
             Thêm nguyên liệu <img className="w-[20px]" src={ic_plus_white} />
           </button>
-        </>
-      ) : (
-        <button
-          onClick={() => handleAddItem()}
-          className="bg-primary font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]"
-        >
-          Thêm nguyên liệu <img className="w-[20px]" src={ic_plus_white} />
-        </button>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
-
 export default MaterialSelect;

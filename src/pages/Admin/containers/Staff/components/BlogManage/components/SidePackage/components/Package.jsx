@@ -27,6 +27,7 @@ const Package = (props) => {
   useEffect(() => {
     // if (params.blogId) {
     let dataIngredient = ingredientsStore;
+    console.log(dataIngredient);
     if (dataIngredient.length > 0) {
       dataIngredient.forEach((item) => {
         handleAddItem(item);

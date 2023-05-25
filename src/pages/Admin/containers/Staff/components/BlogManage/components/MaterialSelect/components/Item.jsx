@@ -47,6 +47,7 @@ const Item = (props) => {
   const [loading, setLoading] = useState(false);
   const debounced = useDebounce(searchInput, 600);
   const store = useSelector((state) => state.management.blogContent);
+  const confirmPackage = useSelector((state) => state.management.confirmPackage);
 
   // ** call api
   useEffect(() => {
@@ -248,6 +249,7 @@ const Item = (props) => {
       <div className="w-4">{index + 1}.</div>
       <div className="flex md:flex-row flex-col md:items-center gap-2 relative">
         <input
+          disabled={confirmPackage}
           type="search"
           onChange={(e) => {
             setSearchhInput(e.target.value);
@@ -261,11 +263,11 @@ const Item = (props) => {
           required
           className="outline-none w-[150px] bg-white rounded-md py-1 pl-2 font-medium text-[#898989]"
         />
-        {selectedUnit !== '' && <p className="text-[#898989] w-[50px]">({selectedUnit})</p>}
+        {/* {selectedUnit !== '' && <p className="text-[#898989] w-[50px]">({selectedUnit})</p>} */}
         <input
           placeholder="Số lượng"
           required
-          disabled={selectedItem !== '' ? false : true}
+          disabled={selectedItem !== '' ? (confirmPackage ? true : false) : true}
           onChange={(e) => {
             setSelectedAmount(e.target.value);
             handleChangeItemAmount(e.target.value);
@@ -278,7 +280,7 @@ const Item = (props) => {
           } outline-none w-[110px] bg-white rounded-md py-1 pl-2 font-medium text-[#898989]`}
         />
         <input
-          disabled={selectedItem !== '' ? false : true}
+          disabled={selectedItem !== '' ? (confirmPackage ? true : false) : true}
           value={description}
           onChange={(e) => {
             setDescription(e.target.value);
@@ -323,7 +325,11 @@ const Item = (props) => {
           </OutsideClickHandler>
         </div>
       </div>
-      <button onClick={() => handleRemoveItem(id)} className="p-1 ml-3 rounded-full bg-redError">
+      <button
+        disabled={confirmPackage}
+        onClick={() => handleRemoveItem(id)}
+        className={`p-1 ml-3 rounded-full ${!confirmPackage ? 'bg-redError' : 'bg-red-400 cursor-not-allowed'} `}
+      >
         <img className="w-[20px] transform rotate-[45deg]" src={ic_plus_white} />
       </button>
     </div>

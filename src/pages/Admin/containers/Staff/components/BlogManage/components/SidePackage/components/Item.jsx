@@ -185,7 +185,7 @@ const Item = (props) => {
           required
           className="outline-none w-[150px] bg-gray-300 rounded-md py-1 pl-2 font-medium text-[#898989]"
         />
-        {selectedUnit !== '' && <p className="text-[#898989] w-[50px]">({selectedUnit})</p>}
+        {/* {selectedUnit !== '' && <p className="text-[#898989] w-[50px]">({selectedUnit})</p>} */}
         <input
           placeholder="Số lượng"
           required

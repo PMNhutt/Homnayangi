@@ -16,6 +16,7 @@ import {
   getCurrentContent,
   setBlogId,
   clearBlogContent,
+  setConfirmPackage,
 } from '../../../../../../../redux/actionSlice/managementSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -88,6 +89,7 @@ const EditBlog = () => {
 
   // ** get edit data (if had)
   useEffect(() => {
+    dispatch(setConfirmPackage(false));
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
@@ -176,15 +178,17 @@ const EditBlog = () => {
                 minutesToCook: parseInt(contentBlog?.minutesToCook) || null,
                 isEvent: contentBlog?.isEvent || null,
                 eventExpiredDate: contentBlog?.eventExpiredDate || null,
+                cookingMethodId: contentBlog?.cookingMethodId || null,
+                regionId: contentBlog?.regionId || null,
               },
-              Recipe: {
-                packagePrice: parseInt(contentBlog?.packagePrice) || null,
-                cookedPrice: parseInt(contentBlog?.cookedPrice) || null,
-                maxSize: parseInt(contentBlog?.maxSize) || null,
-                minSize: parseInt(contentBlog?.minSize) || null,
-                totalKcal: parseInt(contentBlog?.totalKcal) || null,
-              },
-              RecipeDetails: contentBlog?.ingredients || [],
+              // Recipe: {
+              //   packagePrice: parseInt(contentBlog?.packagePrice) || null,
+              //   cookedPrice: parseInt(contentBlog?.cookedPrice) || null,
+              //   maxSize: parseInt(contentBlog?.maxSize) || null,
+              //   minSize: parseInt(contentBlog?.minSize) || null,
+              //   totalKcal: parseInt(contentBlog?.totalKcal) || null,
+              // },
+              // RecipeDetails: contentBlog?.ingredients || [],
               BlogSubCates: subCateList || [],
               BlogReferences: [
                 {

@@ -14,6 +14,8 @@ import Package from './components/Package';
 const SidePackage = () => {
   // ** consts
   const ingredientsStore = useSelector((state) => state.management?.blogContent?.ingredients);
+  const confirmPackage = useSelector((state) => state.management.confirmPackage);
+
   const dispatch = useDispatch();
 
   const [packageList, setPackageList] = useState([]);
@@ -23,12 +25,12 @@ const SidePackage = () => {
   useEffect(() => {
     if (!ingredientsStore?.length > 0) {
       setPackageList([]);
+    } else {
+      if (confirmPackage == false) {
+        setPackageList([]);
+      }
     }
-  }, [ingredientsStore]);
-
-  useEffect(() => {
-    console.log(dataPackageList);
-  }, [dataPackageList]);
+  }, [ingredientsStore, confirmPackage]);
 
   // ** functions
   const handleAddPackage = (editItem) => {
@@ -86,10 +88,14 @@ const SidePackage = () => {
         </>
       ) : (
         <button
-          disabled={ingredientsStore?.length > 0 ? false : true}
+          disabled={ingredientsStore?.length > 0 ? (!confirmPackage ? true : false) : true}
           onClick={() => handleAddPackage()}
           className={`${
-            ingredientsStore?.length > 0 ? 'bg-green-500' : 'cursor-not-allowed bg-green-300'
+            ingredientsStore?.length > 0
+              ? !confirmPackage
+                ? 'cursor-not-allowed bg-green-300'
+                : 'bg-green-500'
+              : 'cursor-not-allowed bg-green-300'
           }  font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]`}
         >
           Thêm gói nguyên liệu <img className="w-[20px]" src={ic_plus_white} />
