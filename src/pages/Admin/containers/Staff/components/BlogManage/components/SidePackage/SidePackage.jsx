@@ -13,6 +13,7 @@ import Package from './components/Package';
 
 const SidePackage = () => {
   // ** consts
+  const store = useSelector((state) => state.management);
   const ingredientsStore = useSelector((state) => state.management?.blogContent?.ingredients);
   const confirmPackage = useSelector((state) => state.management.confirmPackage);
 
@@ -39,6 +40,11 @@ const SidePackage = () => {
 
   const handleRemovePackage = (id) => {
     setPackageList((current) => current.filter((item) => item.id !== id));
+    let Packages = [...store.blogContent.Packages];
+    let modifiedPac = Packages.filter((item) => item.packageId !== id);
+    // console.log(Packages);
+    dispatch(setContentBlog({ Packages: modifiedPac }));
+
     setDataPackageList((current) => current.filter((item) => item.packageId !== id));
   };
 
@@ -88,14 +94,10 @@ const SidePackage = () => {
         </>
       ) : (
         <button
-          disabled={ingredientsStore?.length > 0 ? (!confirmPackage ? true : false) : true}
+          disabled={!confirmPackage ? true : false}
           onClick={() => handleAddPackage()}
           className={`${
-            ingredientsStore?.length > 0
-              ? !confirmPackage
-                ? 'cursor-not-allowed bg-green-300'
-                : 'bg-green-500'
-              : 'cursor-not-allowed bg-green-300'
+            !confirmPackage ? 'cursor-not-allowed bg-green-300' : 'bg-green-500'
           }  font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]`}
         >
           Thêm gói nguyên liệu <img className="w-[20px]" src={ic_plus_white} />

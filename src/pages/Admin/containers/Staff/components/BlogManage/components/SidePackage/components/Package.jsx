@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Tooltip } from '@mui/material';
 import { ic_plus_white } from '../../../../../../../../../assets';
 
+import { useParams } from 'react-router-dom';
+
 // ** components
 import Item from './Item';
 
@@ -11,8 +13,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Package = (props) => {
   // ** const
+  const params = useParams();
   const { handleKeyDown, handleRemovePackage, id, setDataPackageList } = props;
   const ingredientsStore = useSelector((state) => state.management?.blogContent?.ingredients);
+  const store = useSelector((state) => state.management);
   const dispatch = useDispatch();
 
   const [expectedTotalPrice, setExpectedTotalPrice] = useState(0);
@@ -26,8 +30,8 @@ const Package = (props) => {
   // ** get placeholer item to edit
   useEffect(() => {
     // if (params.blogId) {
-    let dataIngredient = ingredientsStore;
-    console.log(dataIngredient);
+    let dataIngredient = [...ingredientsStore];
+    // console.log(dataIngredient);
     if (dataIngredient.length > 0) {
       dataIngredient.forEach((item) => {
         handleAddItem(item);
@@ -38,9 +42,11 @@ const Package = (props) => {
 
   // ** handle calculate price and calories
   useEffect(() => {
-    console.log(selectedList);
+    // console.log(selectedList);
+
     let recipeDetails = selectedList?.map(function (item) {
       return {
+        packageId: id,
         name: item.item.name,
         quantity: parseInt(item.amount),
         ingredientId: item.item.ingredientId,
@@ -48,23 +54,33 @@ const Package = (props) => {
         unitName: item.unitName,
       };
     });
+    let Package = {
+      packageId: id,
+      title: store.blogContent?.title || null,
+      imageUrl: store.blogContent?.coverImage?.url || null,
+      packagePrice: parseInt(packagePrice),
+      cookedPrice: parseInt(cookedPrice),
+      size: parseInt(portion),
+      blogId: store?.blogId,
+      packageDetails: recipeDetails,
+    };
+    let Packages = [...store.blogContent.Packages];
     if (recipeDetails.length > 0) {
-      // console.log(recipeDetails);
-      setDataPackageList((prev) => [
-        ...prev,
-        {
-          packageId: id,
-          portion: portion,
-          packagePrice: packagePrice,
-          cookedPrice: cookedPrice,
-          ingredientDetails: recipeDetails,
-        },
-      ]);
-      // dispatch(setContentBlog({ ingredients: recipeDetails }));
+      // check if package existed
+      let existedPackage = Packages.find((item) => item.packageId == id);
+      if (existedPackage) {
+        let modifiedPac = Packages.filter((item) => item.packageId !== existedPackage.packageId);
+        modifiedPac.push(Package);
+        dispatch(setContentBlog({ Packages: modifiedPac }));
+      } else {
+        Packages.push(Package);
+        dispatch(setContentBlog({ Packages: Packages }));
+      }
     } else {
-      // if (params.blogId) {
-      //   dispatch(setContentBlog({ ingredients: recipeDetails }));
-      // }
+      if (params.blogId) {
+        // dispatch(setContentBlog({ ingredients: recipeDetails }));
+        dispatch(setContentBlog({ Packages: Packages }));
+      }
     }
     let expectedPrice = 0;
     let totalKcal = 0;
@@ -76,7 +92,7 @@ const Package = (props) => {
     if (totalKcal > 0) {
       setTotalKcal(totalKcal);
     }
-  }, [selectedList]);
+  }, [selectedList, portion, cookedPrice, packagePrice]);
 
   // ** functs
   const handleAddItem = (editItem) => {
@@ -96,7 +112,7 @@ const Package = (props) => {
       {/*  */}
       <div className="sm:gap-10 mb-5">
         {/* portion, ingredient price, cooked price */}
-        <div className="flex gap-3 items-center mb-5">
+        <div className="flex flex-wrap gap-3 md:items-center items-start mb-5">
           <input
             value={portion}
             onChange={(e) => setPortion(e.target.value)}

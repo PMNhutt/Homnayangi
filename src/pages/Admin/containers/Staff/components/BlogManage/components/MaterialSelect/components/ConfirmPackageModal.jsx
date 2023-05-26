@@ -1,12 +1,21 @@
 import React from 'react';
 import Modal from '@mui/material/Modal';
 
-import { useDispatch } from 'react-redux';
-import { setConfirmPackage } from '../../../../../../../../../redux/actionSlice/managementSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setConfirmPackage, setContentBlog } from '../../../../../../../../../redux/actionSlice/managementSlice';
 
 const ConfirmPackageModal = (props) => {
   const { openModal, setOpenModal } = props;
   const dispatch = useDispatch();
+  const store = useSelector((state) => state.management);
+
+  const handleCancleConfirm = () => {
+    setOpenModal(false);
+    dispatch(setConfirmPackage(false));
+    let Packages = [...store.blogContent.Packages];
+    let modifiedPac = [Packages[0]];
+    dispatch(setContentBlog({ Packages: modifiedPac }));
+  };
 
   return (
     <Modal open={openModal} onClose={() => setOpenModal(false)}>
@@ -27,10 +36,7 @@ const ConfirmPackageModal = (props) => {
               Hủy bỏ
             </button>
             <button
-              onClick={() => {
-                setOpenModal(false);
-                dispatch(setConfirmPackage(false));
-              }}
+              onClick={() => handleCancleConfirm()}
               className="text-white font-medium px-3 py-1 mt-5 bg-primary rounded-[5px]"
             >
               Xác nhận

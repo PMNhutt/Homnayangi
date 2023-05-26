@@ -16,6 +16,11 @@ const columns = [
     width: 200,
   },
   {
+    field: 'unitName',
+    headerName: 'Đơn vị',
+    width: 200,
+  },
+  {
     field: 'description',
     headerName: 'Mô tả',
     width: 500,

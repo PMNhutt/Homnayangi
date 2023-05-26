@@ -16,8 +16,9 @@ import { ic_plus_white } from '../../../../../../../../assets';
 import Item from './components/Item';
 import ConfirmPackageModal from './components/ConfirmPackageModal';
 
-const MaterialSelect = () => {
+const MaterialSelect = (props) => {
   // ** Const
+  const { packageId } = props;
   const params = useParams();
   const store = useSelector((state) => state.management);
   const dispatch = useDispatch();
@@ -84,9 +85,11 @@ const MaterialSelect = () => {
   }, []);
 
   // ** handle calculate price and calories
+  // const packageId = crypto.randomUUID();
   useEffect(() => {
     let recipeDetails = selectedList?.map(function (item) {
       return {
+        packageId: packageId,
         kcal: item.item.kcal,
         price: item.item.price,
         name: item.item.name,
@@ -96,10 +99,34 @@ const MaterialSelect = () => {
         unitName: item.unitName,
       };
     });
+    let Package = {
+      packageUpdateRequest: {
+        packageId: packageId,
+        title: store.blogContent?.title || null,
+        imageUrl: store.blogContent?.coverImage?.url || null,
+        packagePrice: parseInt(packagePrice),
+        cookedPrice: parseInt(cookedPrice),
+        size: parseInt(portion),
+        blogId: store?.blogId,
+        packageDetails: recipeDetails,
+      },
+    };
+    let Packages = [];
     if (recipeDetails.length > 0) {
-      dispatch(setContentBlog({ ingredients: recipeDetails }));
+      // check dupplicate package
+      let existedPackage = Packages.find((item) => item.packageId == packageId);
+      if (existedPackage) {
+        let modifiedPac = Packages.filter((item) => item.packageId !== existedPackage.packageId);
+        modifiedPac.push(Package);
+        dispatch(setContentBlog({ Packages: modifiedPac }));
+      } else {
+        Packages.push(Package);
+        dispatch(setContentBlog({ ingredients: recipeDetails }));
+        dispatch(setContentBlog({ Packages: Packages }));
+      }
     } else {
       if (params.blogId) {
+        dispatch(setContentBlog({ Packages: Packages }));
         dispatch(setContentBlog({ ingredients: recipeDetails }));
       }
     }
@@ -113,7 +140,7 @@ const MaterialSelect = () => {
     if (totalKcal > 0) {
       setTotalKcal(totalKcal);
     }
-  }, [selectedList]);
+  }, [selectedList, portion, packagePrice, cookedPrice]);
 
   // ** handle input packed price
   const packedPriceDebounce = useDebounce(packagePrice, 600);
@@ -167,7 +194,7 @@ const MaterialSelect = () => {
           <>
             <div className="sm:gap-10 mb-5">
               {/* portion, ingredient price, cooked price */}
-              <div className="flex gap-3 items-center mb-5">
+              <div className="flex md:flex-row flex-col gap-3 md:items-center items-start mb-5">
                 <input
                   value={portion}
                   onChange={(e) => setPortion(e.target.value)}
@@ -234,7 +261,7 @@ const MaterialSelect = () => {
               </div>
             ))}
 
-            <div className="flex items-center gap-3">
+            <div className="flex md:flex-row flex-col items-start md:items-center gap-3">
               <button
                 disabled={store.confirmPackage}
                 onClick={() => handleAddItem()}
@@ -254,7 +281,7 @@ const MaterialSelect = () => {
                   >
                     {!store.confirmPackage ? 'Xác nhận' : 'Bỏ xác nhận'}
                   </button>
-                  <p className="text-gray-500">
+                  <p className="text-gray-500 flex-1">
                     (Sau khi xác nhận sẽ không thể thay đổi nguyên liệu và có thể thêm các gói nguyên liệu khác)
                   </p>
                 </div>

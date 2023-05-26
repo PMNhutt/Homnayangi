@@ -54,6 +54,7 @@ const EditBlog = () => {
     });
   const [uploadBlogSuccess, setUploadBlogSuccess] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const rootPackageId = crypto.randomUUID();
 
   // ** get content store
   const contentBlog = useSelector((state) => state.management.blogContent);
@@ -181,6 +182,7 @@ const EditBlog = () => {
                 cookingMethodId: contentBlog?.cookingMethodId || null,
                 regionId: contentBlog?.regionId || null,
               },
+              Package: contentBlog?.Packages || null,
               // Recipe: {
               //   packagePrice: parseInt(contentBlog?.packagePrice) || null,
               //   cookedPrice: parseInt(contentBlog?.cookedPrice) || null,
@@ -500,7 +502,7 @@ const EditBlog = () => {
             </span>{' '}
           </p>
           <div className="my-3">
-            <MaterialSelect />
+            <MaterialSelect packageId={rootPackageId} />
             <SidePackage />
           </div>
         </div>

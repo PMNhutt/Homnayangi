@@ -3,6 +3,7 @@ import { Regex_PhoneNumber, ReGex_VietnameseTitle } from '../../../../utils/rege
 import instances from '../../../../utils/plugin/axios';
 import GMapAutoComplete from './GMapAutoComplete';
 import MapPicker from 'react-google-map-picker';
+import GoongAutoComplete from './GoongAutoComplete';
 
 import { setCartAddress } from '../../../../redux/actionSlice/shoppingCartSlice';
 import { useDispatch } from 'react-redux';
@@ -61,10 +62,10 @@ const AddressForm = (props) => {
         ', ' +
         mapAddress +
         ', ' +
-        data.districts +
-        ', ' +
-        data.wards +
-        ', ' +
+        // data.districts +
+        // ', ' +
+        // data.wards +
+        // ', ' +
         data.description;
       dispatch(setCartAddress(address));
       notifyConfirmAddress();
@@ -255,7 +256,7 @@ const AddressForm = (props) => {
                     )}
                   </div> */}
           {/* districts  */}
-          <div className="flex-1">
+          {/* <div className="flex-1">
             <Select
               MenuProps={MenuProps}
               value={activeDistricts}
@@ -284,9 +285,9 @@ const AddressForm = (props) => {
             {errors?.districts?.type === 'required' && (
               <p className="mb-[5px] text-redError text-[14px]">Vui lòng chọn tỉnh/thành của bạn</p>
             )}
-          </div>
+          </div> */}
           {/* wards  */}
-          <div className="flex-1">
+          {/* <div className="flex-1">
             <Select
               MenuProps={MenuProps}
               value={activeWards}
@@ -315,10 +316,11 @@ const AddressForm = (props) => {
             {errors?.wards?.type === 'required' && (
               <p className="mb-[5px] text-redError text-[14px]">Vui lòng chọn tỉnh/thành của bạn</p>
             )}
-          </div>
+          </div> */}
         </div>
         <div className="relative">
-          <GMapAutoComplete bounds={bounds} setMapAddress={setMapAddress} mapAddressError={mapAddressError} />
+          {/* <GMapAutoComplete bounds={bounds} setMapAddress={setMapAddress} mapAddressError={mapAddressError} /> */}
+          <GoongAutoComplete setMapAddress={setMapAddress} mapAddressError={mapAddressError} />
           {mapAddressError && <p className="mb-[5px] text-redError text-[14px]">Địa chỉ nhận hàng không được trống</p>}
           {/* specific address */}
           {/* <input
