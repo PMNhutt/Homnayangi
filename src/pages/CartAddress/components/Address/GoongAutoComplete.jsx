@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
-import { goong } from '../../../../utils/plugin/axios';
+import instances, { goong } from '../../../../utils/plugin/axios';
 import useDebounce from '../../../../share/hooks/useDebounce';
+
+import { setShippingCost } from '../../../../redux/actionSlice/shoppingCartSlice';
+import { useDispatch } from 'react-redux';
 
 const GoongAutoComplete = (props) => {
   const { bounds, setMapAddress, mapAddressError } = props;
+
+  const dispatch = useDispatch();
   const HCMLocation = '10.75, 106.67';
   const [searchValue, setSearchValue] = useState('');
   const [predictions, setPredictions] = useState([]);
@@ -29,7 +34,15 @@ const GoongAutoComplete = (props) => {
       setPredictions([]);
       let suggestAddress = res.data.result.formatted_address;
       setMapAddress(suggestAddress.replace(/,/g, ''));
-      console.log(res.data.result.geometry.location);
+      // get shipping cost
+      const shipcost = await instances.get('/orders/shipping-cost', {
+        params: {
+          lat1: res.data.result.geometry.location.lat,
+          lon1: res.data.result.geometry.location.lng,
+        },
+      });
+      dispatch(setShippingCost(shipcost.data.shippingCost));
+      // console.log(res.data.result.geometry.location);
     }
   };
 
@@ -54,6 +67,14 @@ const GoongAutoComplete = (props) => {
       fetch();
     }
   }, [searchDebounce, allowSearch]);
+
+  // reset shippingCost value
+  useEffect(() => {
+    dispatch(setShippingCost(0));
+    // return () => {
+    //   second
+    // }
+  }, []);
 
   return (
     <div className="relative">

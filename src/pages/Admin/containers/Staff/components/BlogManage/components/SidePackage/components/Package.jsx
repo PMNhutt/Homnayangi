@@ -14,8 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 const Package = (props) => {
   // ** const
   const params = useParams();
-  const { handleKeyDown, handleRemovePackage, id, setDataPackageList } = props;
-  const ingredientsStore = useSelector((state) => state.management?.blogContent?.ingredients);
+  const { handleKeyDown, handleRemovePackage, id, cookedId, setDataPackageList, editItem } = props;
+  const ingredientsStore = useSelector((state) => state.management?.blogContent?.Packages[0]?.item2);
   const store = useSelector((state) => state.management);
   const dispatch = useDispatch();
 
@@ -40,6 +40,8 @@ const Package = (props) => {
     // }
   }, [ingredientsStore]);
 
+  //** get editITem */
+
   // ** handle calculate price and calories
   useEffect(() => {
     // console.log(selectedList);
@@ -55,21 +57,24 @@ const Package = (props) => {
       };
     });
     let Package = {
-      packageId: id,
-      title: store.blogContent?.title || null,
-      imageUrl: store.blogContent?.coverImage?.url || null,
-      packagePrice: parseInt(packagePrice),
-      cookedPrice: parseInt(cookedPrice),
-      size: parseInt(portion),
-      blogId: store?.blogId,
-      packageDetails: recipeDetails,
+      item1: {
+        packageId: id,
+        cookedId: cookedId,
+        title: store.blogContent?.title || null,
+        imageUrl: store.blogContent?.coverImage?.url || null,
+        packagePrice: parseInt(packagePrice),
+        cookedPrice: parseInt(cookedPrice),
+        size: parseInt(portion),
+        blogId: store?.blogId,
+      },
+      item2: recipeDetails,
     };
     let Packages = [...store.blogContent.Packages];
     if (recipeDetails.length > 0) {
       // check if package existed
-      let existedPackage = Packages.find((item) => item.packageId == id);
+      let existedPackage = Packages.find((item) => item.item1.packageId == id);
       if (existedPackage) {
-        let modifiedPac = Packages.filter((item) => item.packageId !== existedPackage.packageId);
+        let modifiedPac = Packages.filter((item) => item.item1.packageId !== existedPackage.item1.packageId);
         modifiedPac.push(Package);
         dispatch(setContentBlog({ Packages: modifiedPac }));
       } else {
