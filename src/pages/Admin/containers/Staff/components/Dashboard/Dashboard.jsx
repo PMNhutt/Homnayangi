@@ -10,7 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import CountingNumComponent from './components/CountingNumComponent';
 import DataTable from './components/DataTable';
 import ModalStaffOrderDetail from '../../../../../../share/components/Modal/ModalStaffOrderDetail/ModalStaffOrderDetail';
-import TotalRevenue from './components/TotalRevenue/TotalRevenue';
+import TotalReport from './components/TotalReport/TotalReport';
+import GeneralInfo from './components/GeneralInfo/GeneralInfo';
+import Revenue from './components/Revenue/Revenue';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -110,7 +112,15 @@ const Dashboard = () => {
           endValue={categoryCount}
           navigateTo="/management/category"
         />
-        <TotalRevenue />
+        <GeneralInfo />
+      </div>
+      <div className="mt-8 flex sm:flex-row flex-col gap-10">
+        <div className="sm:w-2/3 w-full">
+          <TotalReport />
+        </div>
+        <div className="sm:w-1/3">
+          <Revenue />
+        </div>
       </div>
       {/* <div className="mt-8">
         <div className="flex items-center gap-3">
