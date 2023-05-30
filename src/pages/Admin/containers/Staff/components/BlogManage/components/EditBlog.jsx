@@ -162,7 +162,10 @@ const EditBlog = () => {
     // console.log(contentBlog);
     contentBlogRef.current = contentBlog;
     let subCateList = contentBlog?.subCategory?.map(function (item) {
-      return { subCateId: item.subCategoryId, blogId: blogIdRef.current };
+      return {
+        subCateId: item.subCategoryId,
+        // blogId: blogIdRef.current
+      };
     });
     let handler = null;
     if (contentBlog !== null) {

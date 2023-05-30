@@ -71,9 +71,9 @@ const MaterialSelect = (props) => {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
         let dataIngredient = res.data.packages[0];
-        setPortion(dataIngredient.item1?.size);
-        setPackagePrice(dataIngredient.item1?.packagePrice);
-        setCookedPrice(dataIngredient.item1?.cookedPrice);
+        setPortion(dataIngredient?.item1?.size);
+        setPackagePrice(dataIngredient?.item1?.packagePrice);
+        setCookedPrice(dataIngredient?.item1?.cookedPrice);
         setPreviousTotalKcal(res?.data?.totalKcal);
         if (dataIngredient.item2.length > 0) {
           dataIngredient.item2.forEach((item) => {
