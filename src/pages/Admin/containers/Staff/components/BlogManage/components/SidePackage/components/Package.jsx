@@ -30,6 +30,9 @@ const Package = (props) => {
   // ** get placeholer item to edit
   useEffect(() => {
     if (editItem) {
+      setPortion(editItem.item1.size);
+      setCookedPrice(editItem.item1.cookedPrice);
+      setPackagePrice(editItem.item1.packagePrice);
       editItem.item2.forEach((item) => {
         handleAddItem(item);
       });
@@ -39,7 +42,6 @@ const Package = (props) => {
         if (dataIngredient.length > 0) {
           dataIngredient.forEach((item) => {
             handleAddItem(item);
-            console.log('run');
           });
         }
       }
