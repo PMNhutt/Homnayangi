@@ -39,7 +39,7 @@ const SidePackage = () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
         let dataIngredient = res.data.packages;
         if (dataIngredient.slice(1).length > 0) {
-          console.log(dataIngredient.slice(1));
+          // console.log(dataIngredient.slice(1));
           dataIngredient.slice(1).forEach((item) => {
             handleAddPackage(item);
           });
@@ -61,7 +61,7 @@ const SidePackage = () => {
     // console.log(Packages);
     dispatch(setContentBlog({ Packages: modifiedPac }));
 
-    setDataPackageList((current) => current.filter((item) => item.packageId !== id));
+    // setDataPackageList((current) => current.filter((item) => item.packageId !== id));
   };
 
   const handleKeyDown = (e) => {
@@ -102,7 +102,7 @@ const SidePackage = () => {
           <button
             // disabled={ingredientsStore?.length > 0 ? false : true}
             onClick={() => handleAddPackage()}
-            className={`
+            className={`bg-green-500
             font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]`}
           >
             Thêm gói nguyên liệu <img className="w-[20px]" src={ic_plus_white} />

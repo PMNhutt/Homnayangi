@@ -31,6 +31,7 @@ const MaterialSelect = (props) => {
   const [packagePrice, setPackagePrice] = useState('');
   const [cookedPrice, setCookedPrice] = useState('');
   const [portion, setPortion] = useState('');
+  const [portTionErr, setPortionErr] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const [rootPackageId, setRootPackageId] = useState(null);
@@ -46,8 +47,14 @@ const MaterialSelect = (props) => {
 
   const handleConfirmPackage = (isConfirmed) => {
     if (isConfirmed == false) {
-      dispatch(setConfirmPackage(true));
+      if (packagePrice !== '' && cookedPrice !== '' && portion !== '') {
+        dispatch(setConfirmPackage(true));
+        setPortionErr(false);
+      } else {
+        setPortionErr(true);
+      }
     } else {
+      // confirm remove smol pakages
       setOpenConfirmModal(true);
     }
   };
@@ -82,6 +89,10 @@ const MaterialSelect = (props) => {
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
+        // check if pakages is more than 1
+        if (res.data.packages.length > 1) {
+          dispatch(setConfirmPackage(true));
+        }
         let dataIngredient = res.data.packages[0];
         setPortion(dataIngredient?.item1?.size);
         setPackagePrice(dataIngredient?.item1?.packagePrice);
@@ -210,6 +221,9 @@ const MaterialSelect = (props) => {
           <>
             <div className="sm:gap-10 mb-5">
               {/* portion, ingredient price, cooked price */}
+              {portTionErr && (
+                <p className="text-redError mb-2 font-semibold">Chưa điền khẩu phần, giá gói, giá đặt nấu</p>
+              )}
               <div className="flex md:flex-row flex-col gap-3 md:items-center items-start mb-5">
                 <input
                   value={portion}

@@ -29,16 +29,22 @@ const Package = (props) => {
 
   // ** get placeholer item to edit
   useEffect(() => {
-    // if (params.blogId) {
-    let dataIngredient = [...ingredientsStore];
-    // console.log(dataIngredient);
-    if (dataIngredient.length > 0) {
-      dataIngredient.forEach((item) => {
+    if (editItem) {
+      editItem.item2.forEach((item) => {
         handleAddItem(item);
       });
+    } else {
+      if (ingredientsStore?.length > 0) {
+        let dataIngredient = [...ingredientsStore];
+        if (dataIngredient.length > 0) {
+          dataIngredient.forEach((item) => {
+            handleAddItem(item);
+            console.log('run');
+          });
+        }
+      }
     }
-    // }
-  }, [ingredientsStore]);
+  }, []);
 
   //** get editITem */
 
