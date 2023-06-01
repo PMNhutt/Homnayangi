@@ -27,12 +27,17 @@ const Package = (props) => {
   const [ingredientList, setIngredientList] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
 
+  const [dataPackageId, setDataPackageId] = useState(null);
+  const [dataCookedId, setDataCookedId] = useState(null);
+
   // ** get placeholer item to edit
   useEffect(() => {
     if (editItem) {
       setPortion(editItem.item1.size);
       setCookedPrice(editItem.item1.cookedPrice);
       setPackagePrice(editItem.item1.packagePrice);
+      setDataPackageId(editItem.item1.packageId);
+      setDataCookedId(editItem.item1.cookedId);
       editItem.item2.forEach((item) => {
         handleAddItem(item);
       });
@@ -55,7 +60,7 @@ const Package = (props) => {
     // console.log(selectedList);
     let recipeDetails = selectedList?.map(function (item) {
       return {
-        packageId: id,
+        packageId: dataPackageId !== null ? dataPackageId : id,
         name: item.item.name,
         quantity: parseInt(item.amount),
         ingredientId: item.item.ingredientId,
@@ -65,8 +70,8 @@ const Package = (props) => {
     });
     let Package = {
       item1: {
-        packageId: id,
-        cookedId: cookedId,
+        packageId: dataPackageId !== null ? dataPackageId : id,
+        cookedId: dataCookedId !== null ? dataCookedId : cookedId,
         title: store.blogContent?.title || null,
         imageUrl: store.blogContent?.coverImage?.url || null,
         packagePrice: parseInt(packagePrice),
@@ -80,7 +85,9 @@ const Package = (props) => {
     if (recipeDetails.length > 0) {
       console.log('recipe details > 0');
       // check if package existed
-      let existedPackage = Packages.find((item) => item.item1.packageId == id);
+      let existedPackage = Packages.find(
+        (item) => item.item1.packageId == (dataPackageId !== null ? dataPackageId : id),
+      );
       if (existedPackage) {
         console.log('existed package');
         let modifiedPac = Packages.filter((item) => item.item1.packageId !== existedPackage.item1.packageId);
