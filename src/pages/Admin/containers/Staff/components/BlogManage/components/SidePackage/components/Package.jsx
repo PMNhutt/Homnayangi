@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const Package = (props) => {
   // ** const
   const params = useParams();
-  const { handleKeyDown, handleRemovePackage, id, cookedId, setDataPackageList, editItem } = props;
+  const { handleKeyDown, handleRemovePackage, id, cookedId, fullPackageList, editItem } = props;
   const ingredientsStore = useSelector((state) => state.management?.blogContent?.Packages[0]?.item2);
   const store = useSelector((state) => state.management);
   const dispatch = useDispatch();
@@ -57,7 +57,6 @@ const Package = (props) => {
 
   // ** handle calculate price and calories
   useEffect(() => {
-    // console.log(selectedList);
     let recipeDetails = selectedList?.map(function (item) {
       return {
         packageId: dataPackageId !== null ? dataPackageId : id,
@@ -82,20 +81,21 @@ const Package = (props) => {
       item2: recipeDetails,
     };
     let Packages = [...store.blogContent.Packages];
+    if (fullPackageList?.length > 0) {
+      Packages = [...fullPackageList];
+    } else {
+      Packages = [...store.blogContent.Packages];
+    }
     if (recipeDetails.length > 0) {
-      console.log('recipe details > 0');
       // check if package existed
-      let existedPackage = Packages.find(
-        (item) => item.item1.packageId == (dataPackageId !== null ? dataPackageId : id),
-      );
+      let packageIdd = dataPackageId !== null ? dataPackageId : id;
+      let existedPackage = Packages.find((item) => item.item1.packageId == packageIdd);
       if (existedPackage) {
-        console.log('existed package');
         let modifiedPac = Packages.filter((item) => item.item1.packageId !== existedPackage.item1.packageId);
         modifiedPac.push(Package);
         dispatch(setContentBlog({ Packages: modifiedPac }));
       } else {
-        console.log('no exiest package');
-        Packages.push(Package);
+        Packages = [...Packages, Package];
         dispatch(setContentBlog({ Packages: Packages }));
       }
     } else {
@@ -126,7 +126,7 @@ const Package = (props) => {
     <div className="relative font-inter bg-[#FFDACA] w-fit mb-2 rounded-[10px] p-[20px]">
       <Tooltip title="Xóa gói nguyên liệu" placement="top">
         <button
-          onClick={() => handleRemovePackage(id)}
+          onClick={() => handleRemovePackage(id, dataPackageId)}
           className="absolute top-5 right-5 p-1 ml-3 rounded-full bg-redError"
         >
           <img className="w-[20px] transform rotate-[45deg]" src={ic_plus_white} />

@@ -152,10 +152,10 @@ const MaterialSelect = (props) => {
         dispatch(setContentBlog({ Packages: Packages }));
       }
     } else {
-      if (params.blogId) {
-        dispatch(setContentBlog({ Packages: Packages }));
-        dispatch(setContentBlog({ ingredients: recipeDetails }));
-      }
+      // if (params.blogId) {
+      //   dispatch(setContentBlog({ Packages: Packages }));
+      //   dispatch(setContentBlog({ ingredients: recipeDetails }));
+      // }
     }
     let expectedPrice = 0;
     let totalKcal = 0;
