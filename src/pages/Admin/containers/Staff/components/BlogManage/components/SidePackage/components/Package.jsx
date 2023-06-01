@@ -53,7 +53,6 @@ const Package = (props) => {
   // ** handle calculate price and calories
   useEffect(() => {
     // console.log(selectedList);
-
     let recipeDetails = selectedList?.map(function (item) {
       return {
         packageId: id,
@@ -79,21 +78,25 @@ const Package = (props) => {
     };
     let Packages = [...store.blogContent.Packages];
     if (recipeDetails.length > 0) {
+      console.log('recipe details > 0');
       // check if package existed
       let existedPackage = Packages.find((item) => item.item1.packageId == id);
       if (existedPackage) {
+        console.log('existed package');
         let modifiedPac = Packages.filter((item) => item.item1.packageId !== existedPackage.item1.packageId);
         modifiedPac.push(Package);
         dispatch(setContentBlog({ Packages: modifiedPac }));
       } else {
+        console.log('no exiest package');
         Packages.push(Package);
         dispatch(setContentBlog({ Packages: Packages }));
       }
     } else {
-      if (params.blogId) {
-        // dispatch(setContentBlog({ ingredients: recipeDetails }));
-        dispatch(setContentBlog({ Packages: Packages }));
-      }
+      // if (params.blogId) {
+      //   console.log('run 95');
+      //   // dispatch(setContentBlog({ ingredients: recipeDetails }));
+      //   dispatch(setContentBlog({ Packages: Packages }));
+      // }
     }
     let expectedPrice = 0;
     let totalKcal = 0;

@@ -42,6 +42,7 @@ const SidePackage = () => {
           // console.log(dataIngredient.slice(1));
           dataIngredient.slice(1).forEach((item) => {
             handleAddPackage(item);
+            console.log('run');
           });
         }
       };

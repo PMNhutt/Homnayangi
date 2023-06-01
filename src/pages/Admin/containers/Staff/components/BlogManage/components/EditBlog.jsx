@@ -117,8 +117,8 @@ const EditBlog = () => {
           }),
         );
         dispatch(setContentBlog({ Packages: res.data?.packages }));
-        dispatch(setContentBlog({ regionId: res.data?.region }));
-        dispatch(setContentBlog({ cookingMethodId: res.data?.cookingMethod }));
+        dispatch(setContentBlog({ regionId: res.data?.region?.regionId }));
+        dispatch(setContentBlog({ cookingMethodId: res.data?.cookingMethod?.cookingMethodId }));
         dispatch(
           setContentBlog({
             ingredients: res.data?.recipeDetails?.map(function (item) {
