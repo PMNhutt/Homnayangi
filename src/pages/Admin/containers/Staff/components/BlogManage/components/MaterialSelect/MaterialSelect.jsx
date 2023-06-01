@@ -3,6 +3,7 @@ import instances from '../../../../../../../../utils/plugin/axios';
 import useDebounce from '../../../../../../../../share/hooks/useDebounce';
 
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 // ** Redux
 import { setContentBlog, setConfirmPackage } from '../../../../../../../../redux/actionSlice/managementSlice';
@@ -21,6 +22,8 @@ const MaterialSelect = (props) => {
   // const { packageId, cookedId } = props;
   const params = useParams();
   const store = useSelector((state) => state.management);
+  const confirmPackage = useSelector((state) => state.management.confirmPackage);
+
   const dispatch = useDispatch();
   const [expectedTotalPrice, setExpectedTotalPrice] = useState(0);
   const [totalKcal, setTotalKcal] = useState('');
@@ -31,7 +34,6 @@ const MaterialSelect = (props) => {
   const [packagePrice, setPackagePrice] = useState('');
   const [cookedPrice, setCookedPrice] = useState('');
   const [portion, setPortion] = useState('');
-  const [portTionErr, setPortionErr] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const [rootPackageId, setRootPackageId] = useState(null);
@@ -39,6 +41,13 @@ const MaterialSelect = (props) => {
 
   const [dataPackageId, setDataPackageId] = useState(null);
   const [dataCookedId, setDataCookedId] = useState(null);
+
+  const notifyError = (error) =>
+    toast.error(error, {
+      pauseOnHover: false,
+      position: 'top-center',
+      autoClose: 2000,
+    });
 
   // ** functs
   const handleAddItem = (editItem) => {
@@ -49,9 +58,8 @@ const MaterialSelect = (props) => {
     if (isConfirmed == false) {
       if (packagePrice !== '' && cookedPrice !== '' && portion !== '') {
         dispatch(setConfirmPackage(true));
-        setPortionErr(false);
       } else {
-        setPortionErr(true);
+        notifyError('Chưa điền khẩu phần, giá gói, giá đặt nấu');
       }
     } else {
       // confirm remove smol pakages
@@ -221,11 +229,9 @@ const MaterialSelect = (props) => {
           <>
             <div className="sm:gap-10 mb-5">
               {/* portion, ingredient price, cooked price */}
-              {portTionErr && (
-                <p className="text-redError mb-2 font-semibold">Chưa điền khẩu phần, giá gói, giá đặt nấu</p>
-              )}
               <div className="flex md:flex-row flex-col gap-3 md:items-center items-start mb-5">
                 <input
+                  disabled={confirmPackage}
                   value={portion}
                   onChange={(e) => setPortion(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -234,6 +240,7 @@ const MaterialSelect = (props) => {
                   className="font-bold rounded w-[120px] outline-none pl-2"
                 />
                 <input
+                  disabled={confirmPackage}
                   value={packagePrice}
                   onChange={(e) => setPackagePrice(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -243,6 +250,7 @@ const MaterialSelect = (props) => {
                 />
                 <div className="flex items-center gap-2">
                   <input
+                    disabled={confirmPackage}
                     value={cookedPrice}
                     onChange={(e) => setCookedPrice(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -263,6 +271,7 @@ const MaterialSelect = (props) => {
                 <div className="mb-3 flex md:flex-row flex-col gap-2">
                   <p className="text-[#898989]">Tổng lượng calo</p>
                   <input
+                    disabled={confirmPackage}
                     onKeyDown={handleKeyDown}
                     type="number"
                     value={totalKcal}

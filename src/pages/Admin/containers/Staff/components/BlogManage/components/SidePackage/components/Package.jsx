@@ -3,6 +3,7 @@ import { Tooltip } from '@mui/material';
 import { ic_plus_white } from '../../../../../../../../../assets';
 
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 // ** components
 import Item from './Item';
@@ -30,6 +31,15 @@ const Package = (props) => {
   const [dataPackageId, setDataPackageId] = useState(null);
   const [dataCookedId, setDataCookedId] = useState(null);
 
+  const [dupplicatePortionErr, setDupplicatePortionErr] = useState(false);
+
+  const notifyError = (error) =>
+    toast.error(error, {
+      pauseOnHover: false,
+      position: 'top-center',
+      autoClose: 2000,
+    });
+
   // ** get placeholer item to edit
   useEffect(() => {
     if (editItem) {
@@ -53,7 +63,21 @@ const Package = (props) => {
     }
   }, []);
 
-  //** get editITem */
+  //** check dupplicate portion */
+  const handleSavePortion = (e) => {
+    let dupplicatePortion;
+    if (fullPackageList?.length > 0) {
+      dupplicatePortion = fullPackageList.find((item) => item.item1.size == parseInt(e.target.value));
+    }
+    if (store.blogContent.Packages?.length > 0) {
+      dupplicatePortion = store.blogContent.Packages.find((item) => item.item1.size == parseInt(e.target.value));
+    }
+    if (dupplicatePortion) {
+      notifyError('Gói không được trùng khẩu phần!');
+    } else {
+      setPortion(e.target.value);
+    }
+  };
 
   // ** handle calculate price and calories
   useEffect(() => {
@@ -83,8 +107,6 @@ const Package = (props) => {
     let Packages = [...store.blogContent.Packages];
     if (fullPackageList?.length > 0) {
       Packages = [...fullPackageList];
-    } else {
-      Packages = [...store.blogContent.Packages];
     }
     if (recipeDetails.length > 0) {
       // check if package existed
@@ -138,7 +160,7 @@ const Package = (props) => {
         <div className="flex flex-wrap gap-3 md:items-center items-start mb-5">
           <input
             value={portion}
-            onChange={(e) => setPortion(e.target.value)}
+            onChange={(e) => handleSavePortion(e)}
             onKeyDown={handleKeyDown}
             type="number"
             placeholder="Khẩu phần"

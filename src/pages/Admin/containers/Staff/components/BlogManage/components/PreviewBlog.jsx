@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import instances from '../../../../../../../utils/plugin/axios';
 import Image from '../../../../../../../share/components/Image';
+import BlogPackage from '../../../../../../../share/components/BlogPackage';
 import YouTube from 'react-youtube';
 
 import { ic_calendar_white } from '../../../../../../../assets';
@@ -170,9 +171,10 @@ const PreviewBlog = () => {
               {previewData?.packages?.length > 0 && (
                 <div className="flex gap-2 flex-wrap mt-5">
                   {previewData?.packages?.map((p) => (
-                    <div className="bg-primary p-5 rounded-[10px] w-fit" key={p.item1.packageId}>
-                      <p>Gói khẩu phần dành cho {p.item1.size} người ăn</p>
-                    </div>
+                    <BlogPackage isStaff data={p} />
+                    // <div className="bg-primary p-5 rounded-[10px] w-fit" key={p.item1.packageId}>
+                    //   <p>Gói khẩu phần dành cho {p.item1.size} người ăn</p>
+                    // </div>
                   ))}
                 </div>
               )}
