@@ -67,6 +67,7 @@ const MainBlog = (props) => {
           img: blogDetail?.imageUrl,
           price: isCook ? data.item1.cookedPrice : data.item1.packagePrice,
           shippedDate: shippedDate ? shippedDate : null,
+          size: data.item1.size,
         };
         // console.log(requestObject);
         dispatch(addItemNoStock(requestObject));
@@ -93,6 +94,7 @@ const MainBlog = (props) => {
           openCookedOrderModal={openOrderCooked}
           setOpenCookedOrderModal={setOpenOrderCooked}
           data={orderCookedData}
+          blogData={blogDetail}
         />
       )}
       <div className="font-inter bg-white rounded-[5px] shadow-md">
