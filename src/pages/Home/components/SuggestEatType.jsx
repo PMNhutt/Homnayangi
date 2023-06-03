@@ -177,7 +177,7 @@ const SuggestEatType = () => {
   // ** call api
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get(`/home/subcategory/${listTagType[type].tagId}/blogs`);
+      const res = await instances.get(`/home/subcategory/${listTagType[type].tagId}/blogs/false`);
       // console.log(res.data.result);
       setEatTypeData(res.data.result);
     };
