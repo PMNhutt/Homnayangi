@@ -35,7 +35,7 @@ export const cartSlice = createSlice({
         cart: [],
         cartType: 1,
         cartAddress: '',
-        paymentMethod: -1,
+        paymentMethod: 1,
         shippingCost: 0
     },
     reducers: {

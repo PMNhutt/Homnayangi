@@ -11,7 +11,7 @@ const Payments = () => {
   const paymentMethod = useSelector((state) => state.cart.paymentMethod);
   const [paymentType, setPaymentType] = useState(0);
   useEffect(() => {
-    dispatch(setPaymentMethod(-1));
+    dispatch(setPaymentMethod(1));
   }, []);
 
   return (
